@@ -2,6 +2,18 @@
 
 # use 4 spaces as a tabulator
 
+class stack(list):
+    def top(self):
+        c = self.pop()
+        self.append(c)
+        return c
+    def is_empty(self):
+        if len(self) > 0:
+            return False
+        return True
+    def push(self,c):
+        self.append(c)
+
 def is_operator(operator):
     if (operator == '+' or 
         operator == '/' or 
@@ -10,9 +22,25 @@ def is_operator(operator):
         operator == '(' or 
         operator == ')' or 
         operator == ';' or
+        operator == '%' or
         is_equal_sign(operator)):
         return True
     return False
+
+def get_Operator_Precedence(operator):
+    if (operator == '*' or
+        operator == '/' or
+        operator == '%'):
+        return 3
+    elif (operator == '+' or
+          operator == '-'):
+        return 2
+    elif operator == ')':
+        return 1
+    elif operator == '(':
+        return 0
+    else:
+        return 0
 
 def is_equal_sign(operator):
     if operator == '=':
@@ -20,6 +48,11 @@ def is_equal_sign(operator):
     return False
 
 def variable_renaming(string_to_rename_variables):
+    """
+    do a renaming for the variables in a text. 
+    cannot work with control structures like if,for,main etc.
+    only works with the plain calculate structures
+    """
     new_file_string = ""
     variables = {}
     for line in string_to_rename_variables:
@@ -58,11 +91,45 @@ def variable_renaming(string_to_rename_variables):
         left_side_variable = ""
     return new_file_string
                 
+def InfixToPostifx(infix):
+    """
+    do a InfixToPostfix conversion for a expression
+    can also handle expressions like a=b+c;
+    """
+    operator_stack = stack()
+    postfix = ""
+    for sign in infix:
+        if not is_operator(sign) or sign == '=':
+            postfix += sign
+        elif sign == '(':
+            operator_stack.push(sign)
+        else:
+            while (not operator_stack.is_empty()) and (get_Operator_Precedence(sign) <= get_Operator_Precedence(operator_stack.top())):
+                if operator_stack.top() == '(':
+                    operator_stack.pop()
+                    continue
+                postfix += operator_stack.pop()
+            if sign != ')':
+                operator_stack.push(sign)
+            elif operator_stack.top() == '(':
+                operator_stack.pop()
+    while not operator_stack.is_empty():
+        if operator_stack.top() == '(':
+            operator_stack.pop()
+            continue
+        postfix += operator_stack.pop()
+    return postfix
 
 def main():
     read_file = open("datei.c")
     write_file = open("other_datei.c", "w")
-    write_file.write(variable_renaming(read_file))
+    renamed_expressions = variable_renaming(read_file)
+    file_string = ""
+    for line in renamed_expressions.split('\n'):
+        file_string += InfixToPostifx(line)
+        file_string += '\n'
+    write_file.write(file_string)
+    write_file.close()
 
 if __name__ == "__main__":
     main()
