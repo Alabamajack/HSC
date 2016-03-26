@@ -15,7 +15,15 @@
 
 using namespace std;
 
-bool isOperator(const char c)
+bool isOperator(const string& c)
+{
+	bool isOperator = false;
+	if(c == "+" || c == "-" || c == "*" || c == "/" || c == "%" || c == "(" || c == ")")
+		isOperator = true;
+	return isOperator;
+}
+
+bool isOperator(const char& c)
 {
 	bool isOperator = false;
 	if(c == '+' || c == '-' || c == '*' || c == '/' || c == '%' || c == '(' || c == ')')
@@ -25,54 +33,65 @@ bool isOperator(const char c)
 	return isOperator;
 }
 
-bool isEqualSign(const char c)
+bool isEqualSign(const string& c)
 {
-	return c == '=' ? true : false;
+	return c == "=" ? true : false;
 }
 
-int getPrecedence(const char c)
+int getPrecedence(const string& c)
 {
 	int prec = 0;
-	if(c == '*' || c == '/' || c == '%')
+	if(c == "*" || c == "/" || c == "%")
 		prec = 4;
-	else if(c == '+' || c == '-' )
+	else if(c == "+" || c == "-" )
 		prec = 3;
-	else if(c == ')')
+	else if(c == ")")
 		prec = 2;
-	else if (c == '(')
+	else if (c == "(")
 		prec = 1;
 	return prec;
 }
 
-string infixToPostfix(const string expr)
+string infixToPostfix(const string& expr)
 {
 	string pf;
-	stack<char> hlp;
-	for(const char c : expr)
+	stack<string> hlp;
+	for(unsigned i = 0; i < expr.size(); i++)
 	{
-		if(!isOperator(c))
+		string varName = expr.substr(i,1);
+		if(!isOperator(varName))
 		{
-			// c is operand
-			pf += c;
+			for(const char c : expr)
+			{
+				if(!isOperator(c))
+				{
+					varName += c;
+				}
+				else
+				{
+					break;
+				}
+			}
+			pf += varName;
 		}
-		else if(c == '(')
+		else if(varName == "(")
 		{
-			hlp.push(c);
+			hlp.push(varName);
 		}
 		else
 		{
-			while(!hlp.empty() && getPrecedence(c) <= getPrecedence(hlp.top()))
+			while(!hlp.empty() && getPrecedence(varName) <= getPrecedence(hlp.top()))
 			{
 				// c has lower priority than stack operator -> empty stack until no more higher operations are on stack
 				pf += hlp.top();
 				hlp.pop();
 			}
-			if(c != ')')
+			if(varName != ")")
 			{
 				// ignore ')' brackets -> in postfix not needed
-				hlp.push(c);
+				hlp.push(varName);
 			}
-			else if (hlp.top() == '(')
+			else if (hlp.top() == "(")
 			{
 				// delete bracket
 				hlp.pop();
@@ -87,7 +106,7 @@ string infixToPostfix(const string expr)
 	return pf;
 }
 
-void varRenaming(const string filename)
+void varRenaming(const string& filename)
 {
 	fstream _file(filename);
 	string _completeFile{};
@@ -104,11 +123,11 @@ void varRenaming(const string filename)
 			size_t pos = _line.find('=');
 			if(pos != string::npos)
 			{
-				// do the left side of "="
+				// do the right side of "="
 				string varName{};
 				for(unsigned i = pos+1; i < _line.size() - 1; i++)
 				{
-					if(!isOperator(_line[i]))
+					if(!isOperator(_line.substr(i,1)))
 					{
 						varName += _line[i];
 					}
