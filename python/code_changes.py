@@ -47,21 +47,27 @@ def is_equal_sign(operator):
         return True
     return False
 
+def is_end_operator(operator):
+    if operator == ';':
+        return True
+    return False
+
 def variable_renaming(string_to_rename_variables):
     """
     do a renaming for the variables in a text. 
     cannot work with control structures like if,for,main etc.
     only works with the plain calculate structures
+    also builds a symbol table with the originally variable names and the readable substitution
     """
     new_file_string = ""
     variables = {}
-    target_variable = []
-    known_variables = 0
+    symbol_table = {}
+    var_counter = 0
     for line in string_to_rename_variables:
         variable = ""
         # do some stuff with each line
         line = line.lstrip('\r\n ')
-        line = line.rstrip('\r\n ') #Remove '\r' and '\n' if any
+        line = line.rstrip('\r\n ')
         left_side_variable = "" #for knowing what variable is on the left side of the operation
         for sign in line:
             if not is_operator(sign):
@@ -71,37 +77,31 @@ def variable_renaming(string_to_rename_variables):
                 variable = variable.lstrip()
                 variable = variable.rstrip()
                 if variable != "":
-                    if is_equal_sign(sign): #variable left of the equal sign
-                        known_variables = known_variables +1
+                    if is_equal_sign(sign):
                         # do some stuff with the one variable on the left side of the operation
-                        var_counter = (0 if variable not in variables else variables[variable][1])
-                        
-                        if var_counter == 0: #This variable is unknown, but on the left side
-                            variables[variable] = [known_variables, 1]
-                            known_variables = known_variables +1 
-                        
+                        this_var_counter = (0 if variable not in variables else variables[variable])
+                        variables[variable] = this_var_counter + 1 #i have this variable at least one time at the left side. so this is not the same variable, if i see it on the right side
                         left_side_variable = variable
-                        
-                        for i in range(var_counter + 1): #adding the $ d
+                        for i in range(this_var_counter + 1): #adding the $ d
                             variable += '$'
-                            variables[variable.rstrip('$')][1] = i + 1 #Note number of $ on original variable
-                        variables[variable] = [known_variables, 0]
-                        target_variable.append('#' + str(variables[variable][0]))
-                    else: # the right side of the assignment
-                        if variable in variables: #variable already known
-                            for i in range(variables[variable][1] - (1 if left_side_variable == variable else 0)):
+                    else:
+                        # the right side of the assignment
+                        if variable in variables:
+                            for i in range(variables[variable] - (1 if left_side_variable == variable else 0)):
+                                # do this -1 times if the variable was the left side operator, because the counter of the variable was incremented
                                 variable += '$'
-                        else: #variable not known
-                            known_variables = known_variables +1
-                            variables[variable] = [known_variables, 0] #Use new variable
-                new_file_string += ('#' + str(variables[variable][0]) if variable != '' else '') + sign if is_operator(sign) else ""
-                # zeroing variable for next one
+                        else:
+                            variables[variable] = 0 # zeroing variable for next one
+                    # now make the symbol table and look, if the variable is in the symbol table
+                    if not variable in symbol_table:
+                        var_counter += 1
+                        symbol_table[variable] = "#" + str(var_counter)
+                    variable = symbol_table[variable]
+                    
+                new_file_string += variable + ("\n" if is_end_operator(sign) else (sign if is_operator(sign) else ""))
                 variable = ""
-        new_file_string = new_file_string.rstrip(';') #Remove ';'
-        new_file_string += "\n"
         left_side_variable = ""
-    new_file_string = new_file_string.rstrip('\n') #Remove last '\n' in string
-    return new_file_string, target_variable
+    return new_file_string, symbol_table
                 
 def InfixToPostifx(infix):
     """
@@ -132,16 +132,26 @@ def InfixToPostifx(infix):
         postfix += operator_stack.pop()
     return postfix
 
+def build_symbol_pairs(string_to_find_pairs):
+    """
+    build a list of pairs which contains a pair consists of the target variable and the expression to calculate this
+    """
+    pairs = []
+    for line in string_to_find_pairs.split('\n'):
+        if line != '':
+            pair = line.split('=')
+            pairs.append(pair)
+    return pairs
+        
+
 def main():
     read_file = open("datei.c")
     write_file = open("other_datei.c", "w")
-    renamed_expressions, target_variable = variable_renaming(read_file)
-    print("Zielvariablen: ")
-    print(target_variable)
+    renamed_expressions, symbol_table = variable_renaming(read_file)
     file_string = ""
-    for line in renamed_expressions.split('\n'):
-        file_string += InfixToPostifx(line)
-        file_string += '\n'
+    pairs =  build_symbol_pairs(renamed_expressions)
+    for pair in pairs:
+        file_string += pair[0] + "=" + InfixToPostifx(pair[1]) + '\n'
     write_file.write(file_string)
     write_file.close()
 
