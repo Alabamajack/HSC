@@ -2,6 +2,8 @@
 
 # use 4 spaces as a tabulator
 
+expression = ""
+
 class stack(list):
     def top(self):
         c = self.pop()
@@ -13,6 +15,24 @@ class stack(list):
         return True
     def push(self,c):
         self.append(c)
+
+class node():
+    def __init__(self, beschriftung):
+        self.__right = None
+        self.__left = None
+        self.__beschriftung = beschriftung
+        
+    def set_left(self, left):
+        self.__left = left
+        
+    def set_right(self, right):
+        self.__right = right
+        
+    def set_beschriftung(self, beschriftung):
+        self.__beschriftung = beschriftung
+        
+    def print_graphviz(self, filename):
+        pass
 
 def is_operator(operator):
     if (operator == '+' or 
@@ -143,15 +163,38 @@ def build_symbol_pairs(string_to_find_pairs):
             pairs.append(pair)
     return pairs
         
+def createTree():
+    global expression
+    v = str(expression[-1])
+    dfg_node = node(v)
+    expression = expression[:-1]
+    if not is_operator(v):
+        sign = v
+        i = len(expression)
+        while sign != '#':
+            i -= 1
+            sign = expression[i]
+            v += sign
+            expression = expression[:-1]
+        v = v[::-1]
+        dfg_node.set_beschriftung(v)
+        return dfg_node
+    
+    dfg_node.set_right(createTree())
+    dfg_node.set_left(createTree())
+    return dfg_node
 
 def main():
+    global expression
     read_file = open("datei.c")
     write_file = open("other_datei.c", "w")
     renamed_expressions, symbol_table = variable_renaming(read_file)
     file_string = ""
     pairs =  build_symbol_pairs(renamed_expressions)
     for pair in pairs:
-        file_string += pair[0] + "=" + InfixToPostifx(pair[1]) + '\n'
+        expression = InfixToPostifx(pair[1])
+        dfg = createTree()
+        file_string += pair[0] + "=" + expression + '\n'
     write_file.write(file_string)
     write_file.close()
 
