@@ -10,8 +10,7 @@
 #include <string>
 #include <map>
 #include <stack>
-#include <algorithm>
-#include "Task1.hpp"
+//#include <algorithm>
 
 using namespace std;
 
@@ -33,9 +32,14 @@ bool isOperator(const char& c)
 	return isOperator;
 }
 
-bool isEqualSign(const string& c)
+bool isEqualSign(const string& s)
 {
-	return c == "=" ? true : false;
+	return s == "=" ? true : false;
+}
+
+bool isRenamingSymbol(const char& c)
+{
+    return c == '$' ? true : false;
 }
 
 int getPrecedence(const string& c)
@@ -63,7 +67,7 @@ string infixToPostfix(const string& expr)
 		{
 			for(const char c : expr)
 			{
-				if(!isOperator(c))
+				if(!isOperator(c) || isRenamingSymbol(c))
 				{
 					varName += c;
 				}
