@@ -2,6 +2,8 @@
 
 # use 4 spaces as a tabulator
 
+from bidict import bidict
+
 expression = ""
 
 class stack(list):
@@ -17,10 +19,12 @@ class stack(list):
         self.append(c)
 
 class node():
-    def __init__(self, beschriftung):
+    def __init__(self, label):
         self.__right = None
         self.__left = None
-        self.__beschriftung = beschriftung
+        self.__label = label
+        self.__counter = 0
+        self.__rootcounter = 0
         
     def set_left(self, left):
         self.__left = left
@@ -28,11 +32,43 @@ class node():
     def set_right(self, right):
         self.__right = right
         
-    def set_beschriftung(self, beschriftung):
-        self.__beschriftung = beschriftung
+    def set_label(self, label):
+        self.__label = label
         
-    def print_graphviz(self, filename):
+    def get_label_without_sharp(self):
         pass
+        
+    def print_graphviz(self, symbol_table):
+        def make_header(gs):
+            gs += "digraph G {\n"
+            return gs
+            
+        def make_footer(gs):
+            gs += "}"
+            return gs
+            
+        def make_elements(node, gs, root):
+            try:
+                root.__rootcounter += 1
+                node.__counter = root.__rootcounter
+                gs += "N" + str(node.__counter)
+                gs += '[label="' + (node.__label if is_operator(node.__label) else symbol_table.inv[node.__label]) + '"]\n'
+                # first node MUST be the left node!! graphviz is shifting existing nodes to left if a new node should be inserted.
+                # if first node to execute is the right, the order for some operations (-,/) is wrong
+                if node.__left:
+                    gs += "N" + str(node.__counter) + " -> N" + str(root.__rootcounter + 1) + "\n"
+                    gs = make_elements(node.__left, gs, root)
+                if node.__right:
+                    gs += "N" + str(node.__counter) + " -> N" + str(root.__rootcounter + 1) + "\n"
+                    gs = make_elements(node.__right, gs, root)
+            except KeyError, e:
+                print "Key Error"
+                print e
+            return gs
+        
+        graph_string = make_header("")
+        graph_string = make_elements(self, graph_string, self)
+        return make_footer(graph_string)
 
 def is_operator(operator):
     if (operator == '+' or 
@@ -81,7 +117,7 @@ def variable_renaming(string_to_rename_variables):
     """
     new_file_string = ""
     variables = {}
-    symbol_table = {}
+    symbol_table = bidict()
     var_counter = 0
     for line in string_to_rename_variables:
         variable = ""
@@ -177,7 +213,7 @@ def createTree():
             v += sign
             expression = expression[:-1]
         v = v[::-1]
-        dfg_node.set_beschriftung(v)
+        dfg_node.set_label(v)
         return dfg_node
     
     dfg_node.set_right(createTree())
@@ -186,6 +222,7 @@ def createTree():
 
 def main():
     global expression
+    exp = ""
     read_file = open("datei.c")
     write_file = open("other_datei.c", "w")
     renamed_expressions, symbol_table = variable_renaming(read_file)
@@ -193,8 +230,13 @@ def main():
     pairs =  build_symbol_pairs(renamed_expressions)
     for pair in pairs:
         expression = InfixToPostifx(pair[1])
+        exp = expression
         dfg = createTree()
-        file_string += pair[0] + "=" + expression + '\n'
+        gs =  dfg.print_graphviz(symbol_table)
+        wf = open(symbol_table.inv[pair[0]] + ".dot", "w")
+        wf.write(gs)
+        wf.close()
+        file_string += pair[0] + "=" + exp + '\n'
     write_file.write(file_string)
     write_file.close()
 
