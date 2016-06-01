@@ -1,0 +1,17 @@
+# Reading pref.tcl
+# vsim -gui -modelsimini /tmp/SigasiCompileCache244007258752190833/VHDL_Codebase/mentor/modelsim.ini work.register_tb(RTL) 
+# Start time: 16:33:26 on Jun 01,2016
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.register_tb(rtl)
+# Loading work.gen_register(rtl)
+add wave -position end  sim:/register_tb/clk
+add wave -position end  sim:/register_tb/rst
+add wave -position end  sim:/register_tb/we
+add wave -position end  sim:/register_tb/a
+add wave -position end  sim:/register_tb/q
+run 500 ns;
+# End time: 16:38:15 on Jun 01,2016, Elapsed time: 0:04:49
+# Errors: 0, Warnings: 0
