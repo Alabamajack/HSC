@@ -32,5 +32,5 @@ architecture RTL of gen_mux is
 	signal s_int : natural := 0;
 begin
 	s_int <= to_integer(unsigned(s));
-	q <= input_arr(s_int * input_arr'length + WIDTH - 1 - s_int downto s_int * WIDTH);
+	q <= input_arr(s_int * WIDTH + INPUTS downto s_int * WIDTH);
 end architecture RTL;

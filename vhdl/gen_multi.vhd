@@ -12,10 +12,6 @@ entity gen_multi is
 end entity gen_multi;
 
 architecture RTL of gen_multi is
-	signal a_h : unsigned(BREITE * 2 -1 downto 0);
-	signal b_h : unsigned(BREITE * 2 -1 downto 0);
 begin
-	a_h <= unsigned(resize(unsigned(a), a_h'length));
-	b_h <= unsigned(resize(unsigned(b), b_h'length));
-	q <= std_logic_vector(a_h * b_h);
+	q <= std_logic_vector(unsigned(a) * unsigned(b));
 end architecture RTL;
