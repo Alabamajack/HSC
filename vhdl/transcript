@@ -1,35 +1,55 @@
 # Reading pref.tcl
-# vsim -gui -modelsimini /tmp/SigasiCompileCache7215871692982985953/VHDL_Codebase/mentor/modelsim.ini work.gen_mux_tb(RTL) 
-# Start time: 14:53:35 on Jun 04,2016
+# vsim -gui -modelsimini /tmp/SigasiCompileCache6569933152860182626/VHDL_Codebase/mentor/modelsim.ini work.uebung5_tb(RTL) 
+# Start time: 20:33:23 on Jun 14,2016
 # Loading std.standard
 # Loading std.textio(body)
 # Loading ieee.std_logic_1164(body)
 # Loading ieee.numeric_std(body)
 # Loading ieee.math_real(body)
-# Loading work.gen_mux_tb(rtl)
+# Loading work.uebung5_tb(rtl)
+# Loading work.uebung_5(rtl)
+# Loading work.gen_addition(rtl)
+# Loading work.gen_multi(rtl)
+# Loading work.gen_sub(rtl)
 # Loading work.gen_mux(rtl)
-add wave -position end  sim:/gen_mux_tb/a
-add wave -position end  sim:/gen_mux_tb/b
-add wave -position end  sim:/gen_mux_tb/c
-add wave -position end  sim:/gen_mux_tb/d
-add wave -position end  sim:/gen_mux_tb/q
-add wave -position end  sim:/gen_mux_tb/s
-add wave -position end  sim:/gen_mux_tb/input_arr
-run 50 ns;
+# Loading work.gen_register(rtl)
+add wave -position end  sim:/uebung5_tb/uebung5/v2v5/BREITE
+add wave -position end  sim:/uebung5_tb/uebung5/v2v5/clk
+add wave -position end  sim:/uebung5_tb/uebung5/v2v5/rst
+add wave -position end  sim:/uebung5_tb/uebung5/v2v5/we
+add wave -position end  sim:/uebung5_tb/uebung5/v2v5/a
+add wave -position end  sim:/uebung5_tb/uebung5/v2v5/q
+add wave -position end  sim:/uebung5_tb/uebung5/addierer_1/a
+add wave -position end  sim:/uebung5_tb/uebung5/addierer_1/b
+add wave -position end  sim:/uebung5_tb/uebung5/addierer_1/q
+run 100 ns;
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-#    Time: 0 ps  Iteration: 0  Instance: /gen_mux_tb/mux
-# ** Fatal: (vsim-3471) Slice range (23 downto 5) does not belong to the prefix index range (19 downto 0).
-#    Time: 5 ns  Iteration: 2  Process: /gen_mux_tb/mux/line__35 File: /home/florian/Schreibtisch/Studium/Master_Informatik/HSC/Projekt/vhdl/gen_mux.vhd
-# Fatal error in Architecture RTL at /home/florian/Schreibtisch/Studium/Master_Informatik/HSC/Projekt/vhdl/gen_mux.vhd line 35
-# 
-# HDL call sequence:
-# Stopped at /home/florian/Schreibtisch/Studium/Master_Informatik/HSC/Projekt/vhdl/gen_mux.vhd 35 Architecture RTL
-# 
-restart
-# Loading work.gen_mux_tb(rtl)
-# Loading work.gen_mux(rtl)
-run 50 ns;
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_sub_op2
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-#    Time: 0 ps  Iteration: 0  Instance: /gen_mux_tb/mux
-# End time: 15:01:15 on Jun 04,2016, Elapsed time: 0:07:40
-# Errors: 2, Warnings: 2
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_sub_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_multi_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_multi_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_3_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_3_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_2_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_2_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_1_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_1_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 2  Instance: /uebung5_tb/uebung5
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 2  Instance: /uebung5_tb/uebung5
+# End time: 20:34:38 on Jun 14,2016, Elapsed time: 0:01:15
+# Errors: 0, Warnings: 14

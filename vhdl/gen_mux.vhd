@@ -18,19 +18,20 @@ use ieee.math_real.all;
 entity gen_mux is
 	generic(
 		INPUTS : positive := 8;
-		WIDTH : positive := 8
+		WIDTH  : positive := 8
 	);
 	port(
-		input_arr : in std_logic_vector(INPUTS * WIDTH - 1 downto 0);
-		s : in std_logic_vector(integer(floor(log2(real(INPUTS)) + 0.5)) - 1 downto 0);
-		q : out std_logic_vector(WIDTH - 1 downto 0)
+		input_arr : in  std_logic_vector(INPUTS * WIDTH - 1 downto 0);
+		s         : in  std_logic_vector(integer(floor(log2(real(INPUTS)) + 0.5)) - 1 downto 0);
+		q         : out std_logic_vector(WIDTH - 1 downto 0)
 	);
-	
+
 end entity gen_mux;
 
 architecture RTL of gen_mux is
 	signal s_int : natural := 0;
 begin
 	s_int <= to_integer(unsigned(s));
-	q <= input_arr(s_int * WIDTH + INPUTS downto s_int * WIDTH);
+	q     <= input_arr((s_int * INPUTS) * WIDTH - 1 downto s_int * WIDTH) when s_int > 0
+		else input_arr(WIDTH - 1 downto 0);
 end architecture RTL;

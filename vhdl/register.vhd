@@ -21,7 +21,7 @@ begin
 	begin
 		if rst = '1' then
 			q <= (others => '0');
-		elsif rising_edge(clk) then
+		elsif falling_edge(clk) then
 			if we = '1' then
 				q <= a;
 			end if;

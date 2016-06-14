@@ -5,10 +5,10 @@ use ieee.math_real.all;
 
 entity uebung_5 is
 	port(
-		clk           : in  std_logic;
-		rst           : in  std_logic;
-		a, b, c, d, e : in  integer;
-		y, z          : out integer
+		clk              : in  std_logic;
+		rst              : in  std_logic;
+		a, b, c, d, e, x : in  integer;
+		y, z             : out integer
 	);
 end entity uebung_5;
 
@@ -82,33 +82,57 @@ architecture RTL of uebung_5 is
 	signal c_logic : std_logic_vector(BREITE - 1 downto 0);
 	signal d_logic : std_logic_vector(BREITE - 1 downto 0);
 	signal e_logic : std_logic_vector(BREITE - 1 downto 0);
+	signal x_logic : std_logic_vector(BREITE - 1 downto 0);
 	signal z_logic : std_logic_vector(BREITE - 1 downto 0);
 	signal y_logic : std_logic_vector(BREITE - 1 downto 0);
 
-	constant ADD1_MUX_INPUTS : natural := 2;
-	signal input_arr_add1    : std_logic_vector(ADD1_MUX_INPUTS * BREITE - 1 downto 0);
-	signal s_add1            : std_logic_vector(integer(floor(log2(real(ADD1_MUX_INPUTS)) + 0.5)) - 1 downto 0);
-	signal q_add1            : std_logic_vector(BREITE - 1 downto 0);
+	constant ADD1_MUX_INPUTS  : natural := 2;
+	signal input_arr_add1_op1 : std_logic_vector(ADD1_MUX_INPUTS * BREITE - 1 downto 0);
+	signal s_add1_op1         : std_logic_vector(integer(floor(log2(real(ADD1_MUX_INPUTS)) + 0.5)) - 1 downto 0);
+	signal q_add1_op1         : std_logic_vector(BREITE - 1 downto 0);
 
-	constant ADD2_MUX_INPUTS : natural := 2;
-	signal input_arr_add2    : std_logic_vector(ADD2_MUX_INPUTS * BREITE - 1 downto 0);
-	signal s_add2            : std_logic_vector(integer(floor(log2(real(ADD2_MUX_INPUTS)) + 0.5)) - 1 downto 0);
-	signal q_add2            : std_logic_vector(BREITE - 1 downto 0);
+	signal input_arr_add1_op2 : std_logic_vector(ADD1_MUX_INPUTS * BREITE - 1 downto 0);
+	signal s_add1_op2         : std_logic_vector(integer(floor(log2(real(ADD1_MUX_INPUTS)) + 0.5)) - 1 downto 0);
+	signal q_add1_op2         : std_logic_vector(BREITE - 1 downto 0);
 
-	constant ADD3_MUX_INPUTS : natural := 2;
-	signal input_arr_add3    : std_logic_vector(ADD3_MUX_INPUTS * BREITE - 1 downto 0);
-	signal s_add3            : std_logic_vector(integer(floor(log2(real(ADD3_MUX_INPUTS)) + 0.5)) - 1 downto 0);
-	signal q_add3            : std_logic_vector(BREITE - 1 downto 0);
+	constant ADD2_MUX_INPUTS  : natural := 2;
+	signal input_arr_add2_op1 : std_logic_vector(ADD2_MUX_INPUTS * BREITE - 1 downto 0);
+	signal s_add2_op1         : std_logic_vector(integer(floor(log2(real(ADD2_MUX_INPUTS)) + 0.5)) - 1 downto 0);
+	signal q_add2_op1         : std_logic_vector(BREITE - 1 downto 0);
 
-	constant MULTI_MUX_INPUTS : natural := 3;
-	signal input_arr_multi    : std_logic_vector(MULTI_MUX_INPUTS * BREITE - 1 downto 0);
-	signal s_multi            : std_logic_vector(integer(floor(log2(real(MULTI_MUX_INPUTS)) + 0.5)) - 1 downto 0);
-	signal q_multi            : std_logic_vector(BREITE - 1 downto 0);
+	signal input_arr_add2_op2 : std_logic_vector(ADD2_MUX_INPUTS * BREITE - 1 downto 0);
+	signal s_add2_op2         : std_logic_vector(integer(floor(log2(real(ADD2_MUX_INPUTS)) + 0.5)) - 1 downto 0);
+	signal q_add2_op2         : std_logic_vector(BREITE - 1 downto 0);
 
-	constant SUB_MUX_INPUTS : natural := 1;
-	signal input_arr_sub    : std_logic_vector(SUB_MUX_INPUTS * BREITE - 1 downto 0);
-	signal s_sub            : std_logic_vector(integer(floor(log2(real(SUB_MUX_INPUTS)) + 0.5)) - 1 downto 0);
-	signal q_sub            : std_logic_vector(BREITE - 1 downto 0);
+	constant ADD3_MUX_INPUTS  : natural := 2;
+	signal input_arr_add3_op1 : std_logic_vector(ADD3_MUX_INPUTS * BREITE - 1 downto 0);
+	signal s_add3_op1         : std_logic_vector(integer(floor(log2(real(ADD3_MUX_INPUTS)) + 0.5)) - 1 downto 0);
+	signal q_add3_op1         : std_logic_vector(BREITE - 1 downto 0);
+
+	signal input_arr_add3_op2 : std_logic_vector(ADD3_MUX_INPUTS * BREITE - 1 downto 0);
+	signal s_add3_op2         : std_logic_vector(integer(floor(log2(real(ADD3_MUX_INPUTS)) + 0.5)) - 1 downto 0);
+	signal q_add3_op2         : std_logic_vector(BREITE - 1 downto 0);
+
+	constant MULTI_MUX_INPUTS  : natural := 3;
+	signal input_arr_multi_op1 : std_logic_vector(MULTI_MUX_INPUTS * BREITE - 1 downto 0);
+	signal s_multi_op1         : std_logic_vector(integer(floor(log2(real(MULTI_MUX_INPUTS)) + 0.5)) - 1 downto 0);
+	signal q_multi_op1         : std_logic_vector(BREITE - 1 downto 0);
+
+	signal input_arr_multi_op2 : std_logic_vector(MULTI_MUX_INPUTS * BREITE - 1 downto 0);
+	signal s_multi_op2         : std_logic_vector(integer(floor(log2(real(MULTI_MUX_INPUTS)) + 0.5)) - 1 downto 0);
+	signal q_multi_op2         : std_logic_vector(BREITE - 1 downto 0);
+
+	constant SUB_MUX_INPUTS  : natural := 2;
+	signal input_arr_sub_op1 : std_logic_vector(SUB_MUX_INPUTS * BREITE - 1 downto 0);
+	signal s_sub_op1         : std_logic_vector(integer(floor(log2(real(SUB_MUX_INPUTS)) + 0.5)) - 1 downto 0);
+	signal q_sub_op1         : std_logic_vector(BREITE - 1 downto 0);
+
+	signal input_arr_sub_op2 : std_logic_vector(SUB_MUX_INPUTS * BREITE - 1 downto 0);
+	signal s_sub_op2         : std_logic_vector(integer(floor(log2(real(SUB_MUX_INPUTS)) + 0.5)) - 1 downto 0);
+	signal q_sub_op2         : std_logic_vector(BREITE - 1 downto 0);
+
+	signal s_sub_21 : std_logic_vector(BREITE - 1 downto 0) := (others => '0');
+	signal s_sub_22 : std_logic_vector(BREITE - 1 downto 0) := (others => '0');
 
 	signal we_v1v10 : std_logic;
 	signal we_v1v7  : std_logic;
@@ -140,22 +164,87 @@ architecture RTL of uebung_5 is
 	signal q_v7v9  : std_logic_vector(BREITE - 1 downto 0);
 	signal q_v9v10 : std_logic_vector(BREITE - 1 downto 0);
 
+	signal s_all_without_multi : std_logic_vector(0 downto 0) := "0";
+
 begin
-	
+
 	-- concurrent statements
 	a_logic <= std_logic_vector(to_unsigned(a, BREITE));
 	b_logic <= std_logic_vector(to_unsigned(b, BREITE));
 	c_logic <= std_logic_vector(to_unsigned(c, BREITE));
 	d_logic <= std_logic_vector(to_unsigned(d, BREITE));
 	e_logic <= std_logic_vector(to_unsigned(e, BREITE));
+	x_logic <= std_logic_vector(to_unsigned(x, BREITE));
 	z       <= to_integer(unsigned(z_logic));
 	y       <= to_integer(unsigned(y_logic));
+
+	-- multiplexer statments
+	---------------------------------------------
+	-- declaring the inputs of all operatos with the muxs'
+	op1_plus1 <= q_add1_op1;
+	op2_plus1 <= q_add1_op2;
+
+	op1_plus2 <= q_add2_op1;
+	op2_plus2 <= q_add2_op2;
+
+	op1_plus3 <= q_add3_op1;
+	op2_plus3 <= q_add3_op2;
+
+	op1_mal <= q_multi_op1;
+	op2_mal <= q_multi_op2;
+
+	op1_minus <= q_sub_op1;
+	op2_minus <= q_sub_op2;
+
+	-------------------------------------------------------
+	-- register settings
+	a_v1v7  <= std_logic_vector(resize(unsigned(erg_mal), BREITE));
+	a_v9v10 <= std_logic_vector(resize(unsigned(erg_mal), BREITE));
+	a_v6v8  <= std_logic_vector(resize(unsigned(erg_mal), BREITE));
+	a_v1v10 <= std_logic_vector(resize(unsigned(erg_mal), BREITE)); -- doppelt gemoppelt, könnte auch anders ausfallsen
+
+	a_v2v5 <= erg_plus1;
+	a_v5v7 <= erg_plus1;
+
+	a_v3v5 <= erg_plus2;
+	a_v7v9 <= erg_plus2;
+
+	a_v4v6 <= erg_plus3;
+
+	-- erg settings
+	z_logic <= erg_plus3;
+	y_logic <= erg_minus;
+
+	-- multiplexer settings
+	input_arr_add1_op1 <= q_v2v5 & a_logic;
+	input_arr_add1_op2 <= q_v3v5 & x_logic;
+
+	input_arr_add2_op1 <= q_v5v7 & d_logic;
+	input_arr_add2_op2 <= q_v1v7 & c_logic;
+
+	input_arr_add3_op1 <= q_v1v10 & b_logic;
+	input_arr_add3_op2 <= q_v9v10 & c_logic;
+
+	input_arr_multi_op1 <= q_v7v9 & q_v4v6 & a_logic;
+	input_arr_multi_op2 <= e_logic & a_logic & d_logic;
+
+	input_arr_sub_op1 <= s_sub_21 & x_logic;
+	input_arr_sub_op2 <= s_sub_22 & q_v6v8;
+
+	-- trick 
+	s_add1_op1 <= s_all_without_multi;
+	s_add1_op2 <= s_all_without_multi;
+	s_add2_op1 <= s_all_without_multi;
+	s_add2_op2 <= s_all_without_multi;
+	s_add3_op1 <= s_all_without_multi;
+	s_add3_op2 <= s_all_without_multi;
+	s_sub_op1  <= s_all_without_multi;
+	s_sub_op2  <= s_all_without_multi;
 
 	addierer_1 : gen_addition
 		generic map(
 			BREITE => BREITE
-		)
-		port map(
+		) port map(
 			a => op1_plus1,
 			b => op2_plus1,
 			q => erg_plus1
@@ -201,59 +290,114 @@ begin
 			q => erg_minus
 		);
 
-	mux_add_1 : gen_mux
+	mux_add_1_op1 : gen_mux
 		generic map(
 			INPUTS => ADD1_MUX_INPUTS,
 			WIDTH  => BREITE
 		)
 		port map(
-			input_arr => input_arr_add1,
-			s         => s_add1,
-			q         => q_add1
+			input_arr => input_arr_add1_op1,
+			s         => s_add1_op1,
+			q         => q_add1_op1
 		);
 
-	mux_add_2 : gen_mux
+	mux_add_1_op2 : gen_mux
+		generic map(
+			INPUTS => ADD1_MUX_INPUTS,
+			WIDTH  => BREITE
+		)
+		port map(
+			input_arr => input_arr_add1_op2,
+			s         => s_add1_op2,
+			q         => q_add1_op2
+		);
+
+	mux_add_2_op1 : gen_mux
 		generic map(
 			INPUTS => ADD2_MUX_INPUTS,
 			WIDTH  => BREITE
 		)
 		port map(
-			input_arr => input_arr_add2,
-			s         => s_add2,
-			q         => q_add2
+			input_arr => input_arr_add2_op1,
+			s         => s_add2_op1,
+			q         => q_add2_op1
 		);
 
-	mux_add_3 : gen_mux
+	mux_add_2_op2 : gen_mux
+		generic map(
+			INPUTS => ADD2_MUX_INPUTS,
+			WIDTH  => BREITE
+		)
+		port map(
+			input_arr => input_arr_add2_op2,
+			s         => s_add2_op2,
+			q         => q_add2_op2
+		);
+
+	mux_add_3_op1 : gen_mux
 		generic map(
 			INPUTS => ADD3_MUX_INPUTS,
 			WIDTH  => BREITE
 		)
 		port map(
-			input_arr => input_arr_add3,
-			s         => s_add3,
-			q         => q_add3
+			input_arr => input_arr_add3_op1,
+			s         => s_add3_op1,
+			q         => q_add3_op1
 		);
 
-	mux_multi : gen_mux
+	mux_add_3_op2 : gen_mux
+		generic map(
+			INPUTS => ADD3_MUX_INPUTS,
+			WIDTH  => BREITE
+		)
+		port map(
+			input_arr => input_arr_add3_op2,
+			s         => s_add3_op2,
+			q         => q_add3_op2
+		);
+
+	mux_multi_op1 : gen_mux
 		generic map(
 			INPUTS => MULTI_MUX_INPUTS,
 			WIDTH  => BREITE
 		)
 		port map(
-			input_arr => input_arr_multi,
-			s         => s_multi,
-			q         => q_multi
+			input_arr => input_arr_multi_op1,
+			s         => s_multi_op1,
+			q         => q_multi_op1
 		);
 
-	mux_sub : gen_mux
+	mux_multi_op2 : gen_mux
+		generic map(
+			INPUTS => MULTI_MUX_INPUTS,
+			WIDTH  => BREITE
+		)
+		port map(
+			input_arr => input_arr_multi_op2,
+			s         => s_multi_op2,
+			q         => q_multi_op2
+		);
+
+	mux_sub_op1 : gen_mux
 		generic map(
 			INPUTS => SUB_MUX_INPUTS,
 			WIDTH  => BREITE
 		)
 		port map(
-			input_arr => input_arr_sub,
-			s         => s_sub,
-			q         => q_sub
+			input_arr => input_arr_sub_op1,
+			s         => s_sub_op1,
+			q         => q_sub_op1
+		);
+
+	mux_sub_op2 : gen_mux
+		generic map(
+			INPUTS => SUB_MUX_INPUTS,
+			WIDTH  => BREITE
+		)
+		port map(
+			input_arr => input_arr_sub_op2,
+			s         => s_sub_op2,
+			q         => q_sub_op2
 		);
 
 	v1v10 : gen_register
@@ -366,15 +510,23 @@ begin
 
 	ausgang : process(clk, rst) is
 	begin
+		s_all_without_multi <= "0";
+		we_v2v5             <= '0';
+		we_v1v10            <= '0';
+		we_v1v7             <= '0';
+		we_v3v5             <= '0';
+		we_v4v6             <= '0';
 		if rst = '1' then
 			null;
 		elsif rising_edge(clk) then
 			case next_state is
 				when 0 =>
-					op1_mal <= d_logic;
-					op2_mal <= a_logic;
-					a_v1v7  <= erg_mal(BREITE - 1 downto 0);
-					we_v1v7 <= '1';
+					s_all_without_multi <= "0";
+					we_v2v5             <= '1';
+					we_v1v10            <= '1';
+					we_v1v7             <= '1';
+					we_v3v5             <= '1';
+					we_v4v6             <= '1';
 
 				when 1      => null;
 				when 2      => null;
