@@ -8,13 +8,16 @@ entity uebung_5 is
 		clk              : in  std_logic;
 		rst              : in  std_logic;
 		a, b, c, d, e, x : in  integer;
-		y, z             : out integer
+		y, z             : out integer;
+		ready            : out boolean
 	);
 end entity uebung_5;
 
 architecture RTL of uebung_5 is
 	constant BREITE : natural := 32;
 	constant INPUTS : natural := 2;
+
+	type ZUSTAENDE is (takt1, takt2, takt3, takt4, takt5, takt6);
 
 	component gen_addition
 		generic(BREITE : positive := 8);
@@ -54,8 +57,8 @@ architecture RTL of uebung_5 is
 			 q   : out std_logic_vector(BREITE - 1 downto 0));
 	end component gen_register;
 
-	signal current_state : natural range 0 to 5 := 0;
-	signal next_state    : natural range 0 to 5 := 0;
+	signal current_state : ZUSTAENDE := takt1;
+	signal next_state    : ZUSTAENDE := takt1;
 
 	signal op1_plus1 : std_logic_vector(BREITE - 1 downto 0);
 	signal op2_plus1 : std_logic_vector(BREITE - 1 downto 0);
@@ -134,37 +137,44 @@ architecture RTL of uebung_5 is
 	signal s_sub_21 : std_logic_vector(BREITE - 1 downto 0) := (others => '0');
 	signal s_sub_22 : std_logic_vector(BREITE - 1 downto 0) := (others => '0');
 
-	signal we_v1v10 : std_logic;
-	signal we_v1v7  : std_logic;
-	signal we_v2v5  : std_logic;
-	signal we_v3v5  : std_logic;
-	signal we_v4v6  : std_logic;
-	signal we_v6v8  : std_logic;
-	signal we_v5v7  : std_logic;
-	signal we_v7v9  : std_logic;
-	signal we_v9v10 : std_logic;
+	signal we_v1v10     : std_logic;
+	signal we_v1v7      : std_logic;
+	signal we_v2v5      : std_logic;
+	signal we_v3v5      : std_logic;
+	signal we_v4v6      : std_logic;
+	signal we_v6v8      : std_logic;
+	signal we_v5v7      : std_logic;
+	signal we_v7v9      : std_logic;
+	signal we_v9v10     : std_logic;
+	signal we_y_ausgang : std_logic;
+	signal we_z_ausgang : std_logic;
 
-	signal a_v1v10 : std_logic_vector(BREITE - 1 downto 0);
-	signal a_v1v7  : std_logic_vector(BREITE - 1 downto 0);
-	signal a_v2v5  : std_logic_vector(BREITE - 1 downto 0);
-	signal a_v3v5  : std_logic_vector(BREITE - 1 downto 0);
-	signal a_v4v6  : std_logic_vector(BREITE - 1 downto 0);
-	signal a_v6v8  : std_logic_vector(BREITE - 1 downto 0);
-	signal a_v5v7  : std_logic_vector(BREITE - 1 downto 0);
-	signal a_v7v9  : std_logic_vector(BREITE - 1 downto 0);
-	signal a_v9v10 : std_logic_vector(BREITE - 1 downto 0);
+	signal a_v1v10     : std_logic_vector(BREITE - 1 downto 0);
+	signal a_v1v7      : std_logic_vector(BREITE - 1 downto 0);
+	signal a_v2v5      : std_logic_vector(BREITE - 1 downto 0);
+	signal a_v3v5      : std_logic_vector(BREITE - 1 downto 0);
+	signal a_v4v6      : std_logic_vector(BREITE - 1 downto 0);
+	signal a_v6v8      : std_logic_vector(BREITE - 1 downto 0);
+	signal a_v5v7      : std_logic_vector(BREITE - 1 downto 0);
+	signal a_v7v9      : std_logic_vector(BREITE - 1 downto 0);
+	signal a_v9v10     : std_logic_vector(BREITE - 1 downto 0);
+	signal a_y_ausgang : std_logic_vector(BREITE - 1 downto 0);
+	signal a_z_ausgang : std_logic_vector(BREITE - 1 downto 0);
 
-	signal q_v1v10 : std_logic_vector(BREITE - 1 downto 0);
-	signal q_v1v7  : std_logic_vector(BREITE - 1 downto 0);
-	signal q_v2v5  : std_logic_vector(BREITE - 1 downto 0);
-	signal q_v3v5  : std_logic_vector(BREITE - 1 downto 0);
-	signal q_v4v6  : std_logic_vector(BREITE - 1 downto 0);
-	signal q_v6v8  : std_logic_vector(BREITE - 1 downto 0);
-	signal q_v5v7  : std_logic_vector(BREITE - 1 downto 0);
-	signal q_v7v9  : std_logic_vector(BREITE - 1 downto 0);
-	signal q_v9v10 : std_logic_vector(BREITE - 1 downto 0);
+	signal q_v1v10     : std_logic_vector(BREITE - 1 downto 0);
+	signal q_v1v7      : std_logic_vector(BREITE - 1 downto 0);
+	signal q_v2v5      : std_logic_vector(BREITE - 1 downto 0);
+	signal q_v3v5      : std_logic_vector(BREITE - 1 downto 0);
+	signal q_v4v6      : std_logic_vector(BREITE - 1 downto 0);
+	signal q_v6v8      : std_logic_vector(BREITE - 1 downto 0);
+	signal q_v5v7      : std_logic_vector(BREITE - 1 downto 0);
+	signal q_v7v9      : std_logic_vector(BREITE - 1 downto 0);
+	signal q_v9v10     : std_logic_vector(BREITE - 1 downto 0);
+	signal q_y_ausgang : std_logic_vector(BREITE - 1 downto 0);
+	signal q_z_ausgang : std_logic_vector(BREITE - 1 downto 0);
 
 	signal s_all_without_multi : std_logic_vector(0 downto 0) := "0";
+	signal s_multi             : std_logic_vector(1 downto 0) := "00";
 
 begin
 
@@ -212,8 +222,10 @@ begin
 	a_v4v6 <= erg_plus3;
 
 	-- erg settings
-	z_logic <= erg_plus3;
-	y_logic <= erg_minus;
+	z_logic     <= q_z_ausgang;
+	y_logic     <= q_y_ausgang;
+	a_y_ausgang <= erg_minus;
+	a_z_ausgang <= erg_plus3;
 
 	-- multiplexer settings
 	input_arr_add1_op1 <= q_v2v5 & a_logic;
@@ -228,8 +240,8 @@ begin
 	input_arr_multi_op1 <= q_v7v9 & q_v4v6 & a_logic;
 	input_arr_multi_op2 <= e_logic & a_logic & d_logic;
 
-	input_arr_sub_op1 <= s_sub_21 & x_logic;
-	input_arr_sub_op2 <= s_sub_22 & q_v6v8;
+	input_arr_sub_op1 <= x_logic & s_sub_21;
+	input_arr_sub_op2 <= q_v6v8 & s_sub_22;
 
 	-- trick 
 	s_add1_op1 <= s_all_without_multi;
@@ -240,6 +252,9 @@ begin
 	s_add3_op2 <= s_all_without_multi;
 	s_sub_op1  <= s_all_without_multi;
 	s_sub_op2  <= s_all_without_multi;
+
+	s_multi_op1 <= s_multi;
+	s_multi_op2 <= s_multi;
 
 	addierer_1 : gen_addition
 		generic map(
@@ -508,42 +523,91 @@ begin
 			q   => q_v9v10
 		);
 
-	ausgang : process(clk, rst) is
+	y_ausgangs_reg : gen_register
+		generic map(
+			BREITE => BREITE
+		)
+		port map(
+			clk => clk,
+			rst => rst,
+			we  => we_y_ausgang,
+			a   => a_y_ausgang,
+			q   => q_y_ausgang
+		);
+
+	z_ausgang_reg : gen_register
+		generic map(
+			BREITE => BREITE
+		)
+		port map(
+			clk => clk,
+			rst => rst,
+			we  => we_z_ausgang,
+			a   => a_z_ausgang,
+			q   => q_z_ausgang
+		);
+
+	uerbergangs_netzwerk : process(current_state) is
 	begin
 		s_all_without_multi <= "0";
+		s_multi             <= "00";
 		we_v2v5             <= '0';
 		we_v1v10            <= '0';
 		we_v1v7             <= '0';
 		we_v3v5             <= '0';
 		we_v4v6             <= '0';
-		if rst = '1' then
-			null;
-		elsif rising_edge(clk) then
-			case next_state is
-				when 0 =>
-					s_all_without_multi <= "0";
-					we_v2v5             <= '1';
-					we_v1v10            <= '1';
-					we_v1v7             <= '1';
-					we_v3v5             <= '1';
-					we_v4v6             <= '1';
+		we_v5v7             <= '0';
+		we_v6v8             <= '0';
+		we_v7v9             <= '0';
+		we_v6v8             <= '0';
+		we_v9v10            <= '0';
+		we_y_ausgang        <= '0';
+		we_z_ausgang        <= '0';
+		next_state          <= takt1;
+		ready               <= false;
+		case current_state is
+			when takt1 =>
+				s_all_without_multi <= "0";
+				s_multi             <= "00";
+				we_v2v5             <= '1';
+				we_v1v10            <= '1';
+				we_v1v7             <= '1';
+				we_v3v5             <= '1';
+				we_v4v6             <= '1';
+				next_state          <= takt2;
+			when takt2 =>
+				s_all_without_multi <= "1";
+				s_multi             <= "01";
+				we_v5v7             <= '1';
+				we_v6v8             <= '1';
+				next_state          <= takt3;
+			when takt3 =>
+				s_all_without_multi <= "1";
+				we_v7v9             <= '1';
+				we_y_ausgang        <= '1';
+				next_state          <= takt4;
+			when takt4 =>
+				s_multi    <= "10";
+				we_v9v10   <= '1';
+				next_state <= takt5;
+			when takt5 =>
+				s_all_without_multi <= "1";
+				we_z_ausgang        <= '1';
+				next_state          <= takt6;
+			when takt6 =>
+				ready <= true;
+			when others => null;
+		end case;
+	end process uerbergangs_netzwerk;
 
-				when 1      => null;
-				when 2      => null;
-				when 3      => null;
-				when 4      => null;
-				when 5      => null;
-				when others => null;
-			end case;
-
-		end if;
-	end process ausgang;
-
-	speicher : process(clk) is
+	zustands_speicher : process(clk, rst) is
 	begin
-		if rising_edge(clk) then
-			next_state <= current_state;
+		if rst = '1' then
+			current_state <= takt1;
 		end if;
-	end process speicher;
+		if rising_edge(clk) then
+			current_state <= next_state;
+		end if;
+	end process zustands_speicher;
 
 end architecture RTL;

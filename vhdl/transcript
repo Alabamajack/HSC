@@ -1,6 +1,6 @@
 # Reading pref.tcl
-# vsim -gui -modelsimini /tmp/SigasiCompileCache6569933152860182626/VHDL_Codebase/mentor/modelsim.ini work.uebung5_tb(RTL) 
-# Start time: 20:33:23 on Jun 14,2016
+# vsim -gui -modelsimini /tmp/SigasiCompileCache3765974965597691878/VHDL_Codebase/mentor/modelsim.ini work.uebung5_tb(RTL) 
+# Start time: 21:36:08 on Jun 17,2016
 # Loading std.standard
 # Loading std.textio(body)
 # Loading ieee.std_logic_1164(body)
@@ -13,16 +13,12 @@
 # Loading work.gen_sub(rtl)
 # Loading work.gen_mux(rtl)
 # Loading work.gen_register(rtl)
-add wave -position end  sim:/uebung5_tb/uebung5/v2v5/BREITE
-add wave -position end  sim:/uebung5_tb/uebung5/v2v5/clk
-add wave -position end  sim:/uebung5_tb/uebung5/v2v5/rst
-add wave -position end  sim:/uebung5_tb/uebung5/v2v5/we
-add wave -position end  sim:/uebung5_tb/uebung5/v2v5/a
-add wave -position end  sim:/uebung5_tb/uebung5/v2v5/q
-add wave -position end  sim:/uebung5_tb/uebung5/addierer_1/a
-add wave -position end  sim:/uebung5_tb/uebung5/addierer_1/b
-add wave -position end  sim:/uebung5_tb/uebung5/addierer_1/q
-run 100 ns;
+do /home/florian/Schreibtisch/Studium/Master_Informatik/HSC/Projekt/vhdl/wave.do
+add wave -position end  sim:/uebung5_tb/uebung5/z_ausgang_reg/we
+add wave -position end  sim:/uebung5_tb/uebung5/z_ausgang_reg/a
+add wave -position end  sim:/uebung5_tb/uebung5/z_ausgang_reg/q
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf /home/florian/Schreibtisch/Studium/Master_Informatik/HSC/Projekt/vhdl/wave.do
+run 100 ns
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
 #    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_sub_op2
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
@@ -47,9 +43,64 @@ run 100 ns;
 #    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
 #    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf /home/florian/Schreibtisch/Studium/Master_Informatik/HSC/Projekt/vhdl/wave.do
+restart
+# Loading work.uebung5_tb(rtl)
+# Loading work.uebung_5(rtl)
+restart
+# Loading work.uebung5_tb(rtl)
+# Loading work.uebung_5(rtl)
+run 100 ns
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-#    Time: 0 ps  Iteration: 2  Instance: /uebung5_tb/uebung5
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_sub_op2
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-#    Time: 0 ps  Iteration: 2  Instance: /uebung5_tb/uebung5
-# End time: 20:34:38 on Jun 14,2016, Elapsed time: 0:01:15
-# Errors: 0, Warnings: 14
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_sub_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_multi_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_multi_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_3_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_3_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_2_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_2_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_1_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_1_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5
+restart
+# Loading work.uebung5_tb(rtl)
+# Loading work.uebung_5(rtl)
+run 100 ns
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_sub_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_sub_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_multi_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_multi_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_3_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_3_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_2_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_2_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_1_op2
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5/mux_add_1_op1
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 0 ps  Iteration: 0  Instance: /uebung5_tb/uebung5
+write format wave -window .main_pane.wave.interior.cs.body.pw.wf /home/florian/Schreibtisch/Studium/Master_Informatik/HSC/Projekt/vhdl/wave.do
